@@ -39,6 +39,9 @@
     "@babel/preset-env": "7.9.6",
     "@babel/preset-react": "7.9.4",
     "@babel/preset-typescript": "7.9.0",
+    "@commitlint/cli": "^13.2.0",
+    "@commitlint/config-conventional": "^13.2.0",
+    "@commitlint/types": "^13.2.0",
     "@nrwl/cli": "10.4.4",
     "@nrwl/cypress": "10.4.4",
     "@nrwl/eslint-plugin-nx": "10.4.4",
@@ -56,7 +59,9 @@
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
     "babel-jest": "26.2.2",
+    "commitlint-config-gitmoji": "^2.2.5",
     "cypress": "^5.5.0",
+    "cz-customizable": "^6.3.0",
     "dotenv": "6.2.0",
     "eslint": "7.10.0",
     "eslint-config-prettier": "6.0.0",
@@ -65,11 +70,17 @@
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-react": "7.21.5",
     "eslint-plugin-react-hooks": "4.2.0",
+    "husky": "^7.0.2",
     "jest": "26.2.2",
     "prettier": "2.1.2",
     "ts-jest": "26.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
     "typescript": "~4.0.3"
+  },
+  "config": {
+    "cz-customizable": {
+      "config": "./cz-config.js"
+    }
   }
 }
