@@ -4,6 +4,11 @@ module.exports = {
     { value: ':bug: fix', name: '🐛 fix:\tFixing a bug' },
     { value: ':memo: docs', name: '📝 docs:\tAdd or update documentation' },
     {
+      value: ':art: style',
+      name:
+        '🎨  style:    \tChanges that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)',
+    },
+    {
       value: ':recycle: refactor',
       name:
         '♻️  refactor:\tCode change that neither fixes a bug nor adds a feature',
@@ -33,12 +38,7 @@ module.exports = {
     },
   ],
 
-  scopes: [
-    { name: 'accounts' },
-    { name: 'observers' },
-    { name: 'devices' },
-    { name: 'core' },
-  ],
+  scopes: [{ name: 'web' }, { name: 'services' }, { name: 'native' }],
 
   // allowTicketNumber: false,
   // isTicketNumberRequired: false,
