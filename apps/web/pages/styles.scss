@@ -12,8 +12,15 @@ body {
   --warn: #faad14;
   --error: #cf1322;
   --success: #39ff14;
+
+  background-color: var(--surface);
+  color: var(--color);
+
   &.dark {
     --surface: #141414;
     --color: #fafafa;
+
+    background-color: var(--surface);
+    color: var(--color);
   }
 }
