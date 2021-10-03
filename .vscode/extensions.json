@@ -1,7 +1,10 @@
 {
   "recommendations": [
-    "ms-vscode.vscode-typescript-tslint-plugin",
-    "esbenp.prettier-vscode",
-    "firsttris.vscode-jest-runner"
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "nrwl.angular-console",
+    "bradlc.vscode-tailwindcss",
+    "jpoissonnier.vscode-styled-components"
   ]
 }
