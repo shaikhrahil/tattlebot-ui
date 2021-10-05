@@ -1,6 +1,8 @@
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { FormField as Input } from '../components/atomic/FormField'
+import { useLogin } from '../hooks/useLogin'
 
 export const Login = () => {
   const {
@@ -9,27 +11,19 @@ export const Login = () => {
     formState: { errors },
   } = useForm()
 
-  const login = (data) => {
-    console.log(data)
-  }
+  const { mutateAsync } = useLogin()
+  const router = useRouter()
 
-  console.log({ errors })
+  const login = async (data) => {
+    const res = await mutateAsync(data)
+    router.push('/dashboard')
+  }
 
   return (
     <form data-testid="login-form" onSubmit={handleSubmit(login)}>
-      <Input
-        {...register('email', { required: true })}
-        type="text"
-        placeholder="Username"
-      />
-      {errors.email?.type === 'required' && (
-        <span className="tw-text-error">Username Required</span>
-      )}
-      <Input
-        {...register('password', { required: true })}
-        type="password"
-        placeholder="Password"
-      />
+      <Input {...register('userName', { required: true })} type="text" placeholder="Username" />
+      {errors.userName?.type === 'required' && <span className="tw-text-error">Username Required</span>}
+      <Input {...register('password', { required: true })} type="password" placeholder="Password" />
       {errors.password?.type === 'required' && (
         <span data-testid="abc" className="tw-text-error">
           Password Required
