@@ -1,5 +1,5 @@
 import styled from 'styled-components'
 
-export const FormField = styled.input`
+export const Input = styled.input`
   padding: '2px 5px';
 `

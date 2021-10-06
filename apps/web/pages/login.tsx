@@ -1,36 +1,52 @@
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { FormField as Input } from '../components/atomic/FormField'
+import { FormInput } from '../components/composite/FormField'
 import { useLogin } from '../hooks/useLogin'
 
 export const Login = () => {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm()
 
-  const { mutateAsync } = useLogin()
+  const loginReq = useLogin()
   const router = useRouter()
 
   const login = async (data) => {
-    const res = await mutateAsync(data)
+    const res = await loginReq.exec(data)
+    if (!res) {
+      return
+    }
     router.push('/dashboard')
   }
 
   return (
-    <form data-testid="login-form" onSubmit={handleSubmit(login)}>
-      <Input {...register('userName', { required: true })} type="text" placeholder="Username" />
-      {errors.userName?.type === 'required' && <span className="tw-text-error">Username Required</span>}
-      <Input {...register('password', { required: true })} type="password" placeholder="Password" />
-      {errors.password?.type === 'required' && (
-        <span data-testid="abc" className="tw-text-error">
-          Password Required
-        </span>
-      )}
-      <button type="submit">Login</button>
-    </form>
+    <>
+      {loginReq.error && <p>{loginReq.error}</p>}
+      <form data-testid="login-form" onSubmit={handleSubmit(login)}>
+        <FormInput
+          name="userName"
+          control={control}
+          type="text"
+          defaultValue=""
+          placeholder="Username"
+          rules={{ required: true }}
+          error={errors.userName && 'Username Required'}
+        />
+        <FormInput
+          name="password"
+          control={control}
+          type="password"
+          defaultValue=""
+          placeholder="Password"
+          rules={{ required: true }}
+          error={errors.password && 'Password Required'}
+        />
+        <button type="submit">Login</button>
+      </form>
+    </>
   )
 }
 

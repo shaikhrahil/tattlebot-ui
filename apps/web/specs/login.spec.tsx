@@ -1,78 +1,86 @@
-import { fireEvent, render, RenderResult } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
 import { useLogin } from '../hooks/useLogin'
 import { Login } from '../pages/login'
+require('@testing-library/jest-dom')
+const ACCESS_TOKEN = 'abcedfjnfvkjnvkdjf'
+const REFRESH_TOKEN = 'abcedfjnfvkjnsdkcmskclsdcl'
+const expectedCreds = { userName: 'rahil', password: 'is awesome' }
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}))
-
-jest.mock('../hooks/useLogin', () => ({
-  useLogin: jest.fn(),
-}))
+jest.mock('next/router')
+jest.mock('../hooks/useLogin')
 
 describe('Login.tsx', () => {
-  let LoginEl: RenderResult
-  const creds = { userName: 'rahil', password: 'is awesome' }
-  const mutateAsync = jest.fn()
-  const push = jest.fn()
+  let expectedRouterPush
 
   beforeEach(() => {
-    useLogin.mockImplementation(() => ({ mutateAsync }))
-    useRouter.mockImplementation(() => ({ push }))
-    LoginEl = render(<Login />)
-  })
-
-  afterEach(() => {
-    LoginEl.unmount()
-  })
-
-  it('should render', () => {
-    const { baseElement } = LoginEl
-    expect(baseElement).toBeTruthy()
+    const expectedLoginExec = jest.fn().mockImplementation((creds) => {
+      if (creds.userName !== expectedCreds.userName || creds.password !== expectedCreds.password) {
+        return null
+      }
+      return {
+        data: {
+          access_token: ACCESS_TOKEN,
+          refresh_token: REFRESH_TOKEN,
+        },
+      }
+    })
+    expectedRouterPush = jest.fn()
+    useLogin.mockImplementation(() => ({ exec: expectedLoginExec }))
+    useRouter.mockImplementation(() => ({ push: expectedRouterPush }))
+    render(<Login />)
   })
 
   it('should login user', async () => {
-    const loginForm = LoginEl.getByTestId('login-form')
+    const loginForm = screen.getByTestId('login-form')
     await act(async () => {
-      fireEvent.change(LoginEl.getByPlaceholderText('Username'), { target: { value: creds.userName } })
-      fireEvent.change(LoginEl.getByPlaceholderText('Password'), { target: { value: creds.password } })
+      fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: expectedCreds.userName } })
+      fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: expectedCreds.password } })
       fireEvent.submit(loginForm)
     })
-    expect(mutateAsync).toHaveBeenCalledWith(creds)
-    expect(push).toHaveBeenCalledWith('/dashboard')
+    expect(expectedRouterPush).toHaveBeenCalledWith('/dashboard')
+  })
+
+  it('should login error when wrong credentials entered', async () => {
+    const loginForm = screen.getByTestId('login-form')
+    await act(async () => {
+      fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'wrongUsername' } })
+      fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'rightUsername' } })
+      fireEvent.submit(loginForm)
+    })
+    expect(expectedRouterPush).toBeCalledTimes(0)
   })
 
   it('should show error message when all empty fields', async () => {
-    const loginForm = LoginEl.getByTestId('login-form')
+    const loginForm = screen.getByTestId('login-form')
     await act(async () => {
       fireEvent.submit(loginForm)
     })
-    expect(LoginEl.getByText('Username Required')).toBeTruthy()
-    expect(LoginEl.getByText('Password Required')).toBeTruthy()
+    expect(screen.getByText(/password required/i)).toBeInTheDocument()
+    expect(screen.getByText('Username Required')).toBeInTheDocument()
   })
 
   it('should show error message username empty', async () => {
-    const loginForm = LoginEl.getByTestId('login-form')
-    const passwordField = LoginEl.getByPlaceholderText('Password')
+    const loginForm = screen.getByTestId('login-form')
+    const passwordField = screen.getByPlaceholderText('Password')
 
     await act(async () => {
       fireEvent.change(passwordField, { target: { value: 'lsdk' } })
       fireEvent.submit(loginForm)
     })
-    expect(LoginEl.getByText('Username Required')).toBeTruthy()
+    expect(screen.getByText('Username Required')).toBeInTheDocument()
   })
 
   it('should show error message when password empty', async () => {
-    const loginForm = LoginEl.getByTestId('login-form')
-    const usernameField = LoginEl.getByPlaceholderText('Username')
+    const loginForm = screen.getByTestId('login-form')
+    const usernameField = screen.getByPlaceholderText('Username')
 
     await act(async () => {
       fireEvent.change(usernameField, { target: { value: 'rahil.shaikh' } })
       fireEvent.submit(loginForm)
     })
-    expect(LoginEl.getByText('Password Required')).toBeTruthy()
+    expect(screen.getByText('Password Required')).toBeDefined()
   })
 })

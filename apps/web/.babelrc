@@ -1,4 +1,13 @@
 {
-  "presets": ["@nrwl/next/babel"],
-  "plugins": []
+  "presets": [
+    "@nrwl/next/babel"
+  ],
+  "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": true
+      }
+    ]
+  ]
 }
