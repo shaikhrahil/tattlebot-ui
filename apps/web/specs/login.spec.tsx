@@ -1,8 +1,8 @@
+import { useLogin } from '@tbot/hooks'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
-import { useLogin } from '../hooks/useLogin'
 import { Login } from '../pages/login'
 require('@testing-library/jest-dom')
 const ACCESS_TOKEN = 'abcedfjnfvkjnvkdjf'
@@ -10,7 +10,7 @@ const REFRESH_TOKEN = 'abcedfjnfvkjnsdkcmskclsdcl'
 const expectedCreds = { userName: 'rahil', password: 'is awesome' }
 
 jest.mock('next/router')
-jest.mock('../hooks/useLogin')
+jest.mock('@tbot/hooks')
 
 describe('Login.tsx', () => {
   let expectedRouterPush

@@ -7,7 +7,7 @@ interface Props {
   password: string
 }
 
-const responseMap = {
+const responseMap: Record<number, string> = {
   404: 'Unable to reach server',
   401: 'Invalid Username or',
 }
@@ -21,7 +21,7 @@ export const useLogin = () => {
     try {
       const res = await mutateAsync(props)
       return res
-    } catch (e) {
+    } catch (e: any) {
       setError(responseMap[e.response?.status] || 'Unable to login')
       return null
     }

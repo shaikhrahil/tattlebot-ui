@@ -27,6 +27,12 @@
     ]
   },
   "projects": {
+    "components-web": {
+      "tags": []
+    },
+    "hooks": {
+      "tags": []
+    },
     "web": {
       "tags": []
     },

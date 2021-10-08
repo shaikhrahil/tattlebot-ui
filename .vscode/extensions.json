@@ -5,6 +5,7 @@
     "eamodio.gitlens",
     "nrwl.angular-console",
     "bradlc.vscode-tailwindcss",
-    "jpoissonnier.vscode-styled-components"
-  ],
+    "jpoissonnier.vscode-styled-components",
+    "firsttris.vscode-jest-runner"
+  ]
 }

@@ -1,5 +1,5 @@
+import { useToggle } from '@tbot/hooks'
 import React, { useCallback, useEffect } from 'react'
-import useToggle from '../hooks/useToggle'
 
 export function Index() {
   const darkTheme = useToggle(true)
@@ -22,9 +22,7 @@ export function Index() {
 
   return (
     <div className="">
-      <button onClick={switchTheme}>
-        {darkTheme.active ? 'light' : 'dark'}
-      </button>
+      <button onClick={switchTheme}>{darkTheme.active ? 'light' : 'dark'}</button>
     </div>
   )
 }

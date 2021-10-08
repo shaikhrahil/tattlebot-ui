@@ -1,8 +1,8 @@
+import { useLogin } from '@tbot/hooks'
+import { FormInput } from '@tbot/web'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { FormInput } from '../components/composite/FormField'
-import { useLogin } from '../hooks/useLogin'
 
 export const Login = () => {
   const {
