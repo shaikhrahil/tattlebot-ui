@@ -1,9 +1,20 @@
+import { useDevices } from '@tbot/hooks'
 import React from 'react'
 
-interface Props {}
+const Dashboard = () => {
+  const deviceReq = useDevices()
 
-const dashboard = (props: Props) => {
-  return <div>Dashboard</div>
+  if (deviceReq.loading) return <p>Loading ... </p>
+  if (deviceReq.error) return <p> {deviceReq.error} </p>
+
+  return (
+    <section>
+      <div>My Devices</div>
+      {deviceReq.data.map((d) => (
+        <p>{JSON.stringify(d)}</p>
+      ))}
+    </section>
+  )
 }
 
-export default dashboard
+export default Dashboard
