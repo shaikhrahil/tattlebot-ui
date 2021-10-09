@@ -1,13 +1,9 @@
-import axios from 'axios'
+import { getDevices } from '@tbot/api'
 import { useQuery } from 'react-query'
 
 export const useDevices = () => {
-  const {
-    data,
-    error,
-    isLoading: loading,
-    isLoadingError: retrying,
-  } = useQuery('devices', (): Promise<any[]> => axios.get(`${process.env.SERVER_URL}/devices`))
+  console.log('Mocking Failed !!')
+  const { data, error, isLoading: loading, isLoadingError: retrying } = useQuery('devices', () => getDevices())
   return { data, error, loading, retrying }
 }
 

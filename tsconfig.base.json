@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@tbot/api": ["libs/api/src/index.ts"],
       "@tbot/hooks": ["libs/hooks/src/index.ts"],
+      "@tbot/types": ["libs/types/src/index.ts"],
       "@tbot/web": ["libs/components/web/src/index.ts"]
     }
   },

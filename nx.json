@@ -27,10 +27,16 @@
     ]
   },
   "projects": {
+    "api": {
+      "tags": []
+    },
     "components-web": {
       "tags": []
     },
     "hooks": {
+      "tags": []
+    },
+    "types": {
       "tags": []
     },
     "web": {

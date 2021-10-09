@@ -1,11 +1,7 @@
-import axios from 'axios'
+import { login } from '@tbot/api'
+import { ILoginReq } from '@tbot/types'
 import { useState } from 'react'
 import { useMutation } from 'react-query'
-
-interface Props {
-  userName: string
-  password: string
-}
 
 const responseMap: Record<number, string> = {
   404: 'Unable to reach server',
@@ -13,11 +9,11 @@ const responseMap: Record<number, string> = {
 }
 
 export const useLogin = () => {
-  const { mutateAsync, isLoading: loading } = useMutation((props: Props) => axios.post(`${process.env.SERVER_URL}/login`, props))
+  const { mutateAsync, isLoading: loading } = useMutation((props: ILoginReq) => login(props))
 
   const [error, setError] = useState('')
 
-  const exec = async (props: Props) => {
+  const exec = async (props: ILoginReq) => {
     try {
       const res = await mutateAsync(props)
       return res
