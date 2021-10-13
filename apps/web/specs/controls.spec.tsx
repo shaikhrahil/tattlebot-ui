@@ -1,42 +1,49 @@
 import { useDevices } from '@tbot/hooks'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import Dashboard from '../pages/dashboard'
-require('@testing-library/jest-dom')
+import Controls from '../pages/controls'
 jest.mock('@tbot/hooks')
+const mockUseDevices = useDevices as jest.Mock
 
-describe('dashboard.tsx', () => {
-  let expected
+describe('controls.tsx', () => {
+  let expectedDevices, expectedObservers
 
   describe('when render successful', () => {
     beforeEach(() => {
       const queryClient = new QueryClient()
-      expected = { data: { data: [{ name: 'Device 1' }] } }
-      useDevices.mockImplementation(() => expected)
+      expectedObservers = [{ name: 'observer #1' }]
+      expectedDevices = { data: { data: [{ name: 'Device 1', observers: expectedObservers }] } }
+      mockUseDevices.mockImplementation(() => expectedDevices)
       render(
         <QueryClientProvider client={queryClient}>
-          <Dashboard />
+          <Controls />
         </QueryClientProvider>,
       )
     })
 
-    it('should load devices', async () => {
+    it('should load devices', () => {
       expect(screen.getByText('My Devices')).toBeInTheDocument()
       expect(screen.getByText('Device 1')).toBeInTheDocument()
+      expect(screen.getByText('1 observer(s)')).toBeInTheDocument()
     })
 
-    it.todo('should load observers')
-    it.todo('should load show be able to select device')
+    it('should be able to select device', async () => {
+      await act(async () => {
+        userEvent.click(screen.getByText('Device 1'))
+      })
+      expect(screen.getByText('observer #1')).toBeInTheDocument()
+    })
   })
 
   describe('when render failed', () => {
     beforeEach(() => {
       const queryClient = new QueryClient()
-      expected = { error: 'Error occured' }
-      useDevices.mockImplementation(() => expected)
+      expectedDevices = { error: 'Error occured' }
+      mockUseDevices.mockImplementation(() => expectedDevices)
       render(
         <QueryClientProvider client={queryClient}>
-          <Dashboard />
+          <Controls />
         </QueryClientProvider>,
       )
     })

@@ -4,10 +4,12 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
 import { Login } from '../pages/login'
-require('@testing-library/jest-dom')
 const ACCESS_TOKEN = 'abcedfjnfvkjnvkdjf'
 const REFRESH_TOKEN = 'abcedfjnfvkjnsdkcmskclsdcl'
 const expectedCreds = { userName: 'rahil', password: 'is awesome' }
+
+const mockUseLogin = useLogin as jest.Mock
+const mockRouter = useRouter as jest.Mock
 
 jest.mock('next/router')
 jest.mock('@tbot/hooks')
@@ -28,8 +30,8 @@ describe('Login.tsx', () => {
       }
     })
     expectedRouterPush = jest.fn()
-    useLogin.mockImplementation(() => ({ exec: expectedLoginExec }))
-    useRouter.mockImplementation(() => ({ push: expectedRouterPush }))
+    mockUseLogin.mockImplementation(() => ({ exec: expectedLoginExec }))
+    mockRouter.mockImplementation(() => ({ push: expectedRouterPush }))
     render(<Login />)
   })
 
