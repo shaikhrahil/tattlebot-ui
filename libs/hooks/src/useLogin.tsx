@@ -25,3 +25,5 @@ export const useLogin = () => {
 
   return { exec, error, loading }
 }
+
+export default useLogin
