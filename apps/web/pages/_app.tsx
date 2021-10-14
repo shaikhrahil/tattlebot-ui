@@ -1,8 +1,11 @@
+import { UserProvider } from '@tbot/shared'
+import { IUser } from '@tbot/types'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { UserContext } from '../utils/userContext'
 import './styles.scss'
 
 const queryClient = new QueryClient()
@@ -13,10 +16,20 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to web!</title>
       </Head>
-      <Component {...pageProps} />
+      <UserContext.Provider value={null}>
+        <Component {...pageProps} />
+      </UserContext.Provider>
       <ReactQueryDevtools />
     </QueryClientProvider>
   )
 }
 
 export default CustomApp
+
+export const CustomAppWrapper = ({ children, init }: { children: ReactElement; init: IUser }) => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <UserProvider user={init}>{children}</UserProvider>
+    </QueryClientProvider>
+  )
+}

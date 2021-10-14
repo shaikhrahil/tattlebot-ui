@@ -30,6 +30,9 @@
     "api": {
       "tags": []
     },
+    "components-shared": {
+      "tags": []
+    },
     "components-web": {
       "tags": []
     },
