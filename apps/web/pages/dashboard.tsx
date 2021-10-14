@@ -1,9 +1,15 @@
+import { useUser } from '@tbot/hooks'
 import React from 'react'
 
-interface Props {}
-
-const Dashboard = (props: Props) => {
-  return <div>Dashboard</div>
+const Dashboard = () => {
+  const user = useUser()
+  return (
+    <div>
+      Dashboard
+      <p> Hi {user.firstName}</p>
+      <p>Good morning !</p>
+    </div>
+  )
 }
 
 export default Dashboard
