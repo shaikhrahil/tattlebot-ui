@@ -24,7 +24,6 @@ describe('dashboard.tsx', () => {
         </CustomAppWrapper>,
       )
   })
-
   it('shows welcome message and stats', () => {
     useStats.mockImplementation(() => ({
       connected: true,
@@ -39,24 +38,24 @@ describe('dashboard.tsx', () => {
       }),
     }))
     mockRender()
-    screen.getByText('Hi Rahil')
-    screen.getByText('10')
-    screen.getByText('4')
-    screen.getByText('3 / min')
-    screen.getByText('102 hours')
-    screen.getByText('20 min ago')
+    expect(screen.getByText('Hi Rahil')).toBeDefined()
+    expect(screen.getByTitle('No. of Observers')).toContainHTML('<p>10</p>')
+    expect(screen.getByTitle('Number of devices')).toContainHTML('<p>4</p>')
+    expect(screen.getByTitle('Rate of events')).toContainHTML('<p>3 / min</p>')
+    expect(screen.getByTitle('No. of device online hours')).toContainHTML('<p>102 hours</p>')
+    expect(screen.getByTitle('Last event reception')).toContainHTML('<p>20 min ago</p>')
   })
 
   it('shows loader', () => {
     useStats.mockImplementation(() => ({ connecting: true, listen: jest.fn() }))
     mockRender()
-    screen.getByText('Loading ...')
+    expect(screen.getByText('Loading ...')).toBeDefined()
   })
 
   it('shows error message', () => {
     const error = 'Unable to load'
     useStats.mockImplementation(() => ({ error, listen: jest.fn() }))
     mockRender()
-    screen.getByText(error)
+    expect(screen.getByText(error)).toBeDefined()
   })
 })

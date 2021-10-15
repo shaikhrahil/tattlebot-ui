@@ -1,9 +1,9 @@
-import * as hooks from '@tbot/hooks'
+import { useStats, useUser } from '@tbot/hooks'
 import React, { ReactElement, useEffect, useState } from 'react'
 
 const Dashboard = () => {
-  const user = hooks.useUser()
-  const stats = hooks.useStats()
+  const user = useUser()
+  const stats = useStats()
 
   const [state, setState] = useState(null)
 
@@ -44,28 +44,29 @@ const Dashboard = () => {
     <Wrapper>
       {state && (
         <div>
-          <div>
+          <div title="No. of Observers">
             <p>Observers</p>
             <p>{state.observers}</p>
           </div>
 
-          <div>
+          <div title="Number of devices">
             <p>Devices</p>
             <p>{state.devices}</p>
           </div>
 
-          <div>
+          <div title="Rate of events">
             <p>Rate</p>
             <p>{state.rate} / min</p>
           </div>
 
-          <div>
+          <div title="No. of device online hours">
             <p>Bandwidth</p>
             <p>{state.bandwidth} hours</p>
           </div>
-          <div>
+
+          <div title="Last event reception">
             <p>Last Event</p>
-            <p>{state.last} min ago </p>
+            <p>{state.last} min ago</p>
           </div>
         </div>
       )}
